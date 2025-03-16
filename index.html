@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2C3E50;
+            --secondary-color: #E74C3C;
+            --accent-color: #3498DB;
+            --background-color: #ECF0F1;
+            --text-color: #2C3E50;
+        }
+
+        body {
+            background-color: var(--background-color);
+        }
+
+        .navbar {
+            background-color: var(--primary-color) !important;
+            padding: 1rem 0;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), 
+                url('https://img.freepik.com/vector-premium/fondo-abstracto-azul-moderno-diseno-ilustracion-vectorial-presentacion-banner-portada-web-volante-tarjeta-afiche-papel-tapiz-textura-diapositiva-revista-powerpoint_181182-19674.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 6rem 0;
+            color: white;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+
+        .hero-section .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-section h1 {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 700;
+        }
+
+        .hero-section .lead {
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding-left: 3rem;
+            border-radius: 30px;
+            border: none;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-box .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-color);
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">Student Management System</span>
+            <div>
+                <button class="btn btn-outline-light me-2" id="addNewStudent">
+                    <i class="fas fa-plus me-2"></i>Agregar Estudiante
+                </button>
+                <button class="btn btn-outline-light" id="loadStudent">
+                    <i class="fas fa-sync-alt me-2"></i>Cargar Estudiantes
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 mb-4">Gestión de Estudiantes</h1>
+            <p class="lead mb-4">Explora y gestiona la información de nuestros estudiantes</p>
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="studentSearch" class="form-control form-control-lg" 
+                           placeholder="Buscar estudiante por nombre o código...">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <h2>Students List</h2>
+        <div class="row" id="studentsList">
+
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="" class="card-img-top student-image" alt="Student Photo">
+                    <div class="card-body">
+                        <h5 class="card-title student-name"></h5>
+                        <p class="card-text student-id"></p>
+                        <p class="card-text student-email"></p>
+                        <div class="d-flex justify-content-start">
+                            <a href="#" class="btn btn-link github-link">
+                                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" style="width: 24px;">
+                                GitHub
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+
+
+        </div>
+    </div>
+
+    <!-- Student Card Template -->
+    <template id="studentCardTemplate">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="" class="card-img-top student-image" alt="Student Photo">
+                <div class="card-body">
+                    <h5 class="card-title student-name"></h5>
+                    <p class="card-text student-id"></p>
+                    <p class="card-text student-email"></p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="#" class="btn btn-link github-link">
+                            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" style="width: 24px;">
+                            GitHub
+                        </a>
+                        <button class="btn btn-outline-primary btn-edit">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </template>
+
+    <!-- Modal para agregar estudiante -->
+    <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addStudentModalLabel">Agregar Nuevo Estudiante</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addStudentForm">
+                        <div class="mb-3">
+                            <label for="studentName" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="studentName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentCode" class="form-label">Código</label>
+                            <input type="text" class="form-control" id="studentCode" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="studentEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentGithub" class="form-label">Usuario de GitHub</label>
+                            <input type="text" class="form-control" id="studentGithub" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentPhoto" class="form-label">URL de la foto</label>
+                            <input type="url" class="form-control" id="studentPhoto" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveStudent">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para detalles del estudiante -->
+    <div class="modal fade" id="studentDetailsModal" tabindex="-1" aria-labelledby="studentDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="studentDetailsModalLabel">Detalles del Estudiante</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <img id="detailStudentImage" src="" alt="Foto del estudiante" class="img-fluid rounded" style="max-height: 200px;">
+                    </div>
+                    <div class="student-info">
+                        <h4 id="detailStudentName" class="mb-3"></h4>
+                        <p><strong>Código:</strong> <span id="detailStudentCode"></span></p>
+                        <p><strong>Email:</strong> <span id="detailStudentEmail"></span></p>
+                        <p><strong>GitHub:</strong> <a id="detailStudentGithub" href="#" target="_blank"></a></p>
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5>Tecnologías</h5>
+                                <button class="btn btn-primary btn-sm" id="addTechnologyBtn">
+                                    <i class="fas fa-plus"></i> Agregar Tecnología
+                                </button>
+                            </div>
+                            <div id="studentTechnologies" class="d-flex flex-wrap gap-3">
+                                <!-- Las tecnologías se agregarán dinámicamente aquí -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para editar estudiante -->
+    <div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editStudentModalLabel">Editar Estudiante</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editStudentForm">
+                        <div class="mb-3">
+                            <label for="editStudentName" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="editStudentName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editStudentCode" class="form-label">Código</label>
+                            <input type="text" class="form-control" id="editStudentCode" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editStudentEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="editStudentEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editStudentGithub" class="form-label">Usuario de GitHub</label>
+                            <input type="text" class="form-control" id="editStudentGithub" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editStudentPhoto" class="form-label">URL de la foto</label>
+                            <input type="url" class="form-control" id="editStudentPhoto" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="updateStudent">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para agregar tecnología -->
+    <div class="modal fade" id="addTechnologyModal" tabindex="-1" aria-labelledby="addTechnologyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTechnologyModalLabel">Agregar Tecnología</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addTechnologyForm">
+                        <input type="hidden" id="technologyStudentCode">
+                        <div class="mb-3">
+                            <label for="technologySelect" class="form-label">Tecnología</label>
+                            <select class="form-select" id="technologySelect" required>
+                                <option value="">Selecciona una tecnología</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="technologyLevel" class="form-label">Nivel de dominio</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="range" class="form-range" id="technologyLevel" min="1" max="5" value="3">
+                                <span id="technologyLevelValue">3</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveTechnology">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    
+</body>
+</html>
