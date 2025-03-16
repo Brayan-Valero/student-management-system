@@ -128,10 +128,16 @@
             <h1 class="display-4 mb-4">Gestión de Estudiantes</h1>
             <p class="lead mb-4">Explora y gestiona la información de nuestros estudiantes</p>
             <div class="search-container">
-                <div class="search-box">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="studentSearch" class="form-control form-control-lg" 
-                           placeholder="Buscar estudiante por nombre o código...">
+                <div class="d-flex gap-3">
+                    <div class="search-box flex-grow-1">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="studentSearch" class="form-control form-control-lg" 
+                               placeholder="Buscar estudiante por nombre o código...">
+                    </div>
+                    <select id="sortSelect" class="form-select form-select-lg" style="width: auto;">
+                        <option value="name">Ordenar por nombre</option>
+                        <option value="code">Ordenar por código</option>
+                    </select>
                 </div>
             </div>
         </div>

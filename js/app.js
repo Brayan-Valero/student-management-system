@@ -122,6 +122,18 @@ function filterStudents(searchTerm) {
     );
 }
 
+// Función para ordenar estudiantes
+function sortStudents(students, sortBy) {
+    return [...students].sort((a, b) => {
+        if (sortBy === 'name') {
+            return a.name.localeCompare(b.name);
+        } else if (sortBy === 'code') {
+            return a.code.localeCompare(b.code);
+        }
+        return 0;
+    });
+}
+
 // Función para abrir el modal de edición
 function openEditModal(student) {
     const modal = new bootstrap.Modal(document.getElementById('editStudentModal'));
@@ -135,6 +147,23 @@ function openEditModal(student) {
     
     modal.show();
 }
+
+// Función para actualizar la lista de estudiantes
+function updateStudentsList() {
+    const searchTerm = searchInput.value;
+    const sortBy = document.getElementById('sortSelect').value;
+    
+    let filteredStudents = filterStudents(searchTerm);
+    filteredStudents = sortStudents(filteredStudents, sortBy);
+    
+    renderFilteredStudents(filteredStudents);
+}
+
+// Event listener para la búsqueda
+searchInput.addEventListener('input', updateStudentsList);
+
+// Event listener para el ordenamiento
+document.getElementById('sortSelect').addEventListener('change', updateStudentsList);
 
 // Función para renderizar estudiantes filtrados
 function renderFilteredStudents(students) {
@@ -175,18 +204,11 @@ function renderFilteredStudents(students) {
     });
 }
 
-// Event listener para la búsqueda
-searchInput.addEventListener('input', (e) => {
-    const searchTerm = e.target.value;
-    const filteredStudents = filterStudents(searchTerm);
-    renderFilteredStudents(filteredStudents);
-});
-
 // Render students
 async function renderStudents() {
     try {
         allStudents = await api.getStudents();
-        renderFilteredStudents(allStudents);
+        updateStudentsList();
     } catch (error) {
         console.error('Error al cargar estudiantes:', error);
         studentsList.innerHTML = `
